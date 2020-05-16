@@ -8,6 +8,10 @@ var form = document.getElementById("addForm");
 var itemsList = document.getElementById("items");
 console.log('itemsList', itemsList)
 
+// Находим строку поиска
+var filter = document.getElementById("filter");
+console.log('filter', filter)
+
 
 // Начинаем прослушивать форму по сабмиту
 form.addEventListener("submit", addItem)
@@ -76,4 +80,37 @@ function deleteItem(e){
                 e.target.parentNode.remove();
             }
     }
+}
+
+// Реализуем поиск по списку
+
+// Прослушиваем событие нажатия на клавиши и запись в вэлью (keyup)
+filter.addEventListener("keyup", filterItems)
+
+// Функция поиска
+function filterItems(e){
+
+    // Находим текст (вэлью) строки поиска
+    // toLowerCase - приводим к нижнему регистру
+    var searchText = e.target.value.toLowerCase();
+
+    // Получаем список всех задач
+    var items = itemsList.querySelectorAll("li");
+    
+    // Перебираем циклом forEach все теги li с задачами
+    items.forEach(function(item){
+
+        // Находим текстовое значение (первый элемент)
+        var textContent = item.firstChild.textContent.toLowerCase();
+        
+        // Проверяем на вхождение искомой подстроки в текст задачи
+
+        if( textContent.indexOf( searchText ) != -1 ){
+            item.style.display = "block";
+        } else {
+            item.style.display = "none";
+        }
+    })
+
+
 }
